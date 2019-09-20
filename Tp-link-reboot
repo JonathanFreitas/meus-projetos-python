@@ -1,0 +1,43 @@
+from selenium import webdriver
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+import sys
+import time
+
+browser = webdriver.Firefox(executable_path="C:\\geckodriver.exe")
+
+browser.get('http://yourUrl')
+
+username = browser.find_element_by_id("txt_usr_name")
+password = browser.find_element_by_id("txt_password")
+submit = browser.find_element_by_id("btn_logon")
+
+username.send_keys("yourName")
+password.send_keys("yourPasswd")
+
+submit.click()
+confirm = browser.find_element_by_id("btn_confirm")
+confirm.click()
+time.sleep(4)
+browser.switch_to.frame("bottomLeftFrame")
+
+b = browser.find_element_by_id("a26")
+b.click()
+
+c = browser.find_element_by_id("a28")
+c.click()
+browser.switch_to_default_content()
+browser.switch_to.frame("mainFrame")
+time.sleep(3)
+
+
+d = browser.find_element_by_xpath("//span[@class='TAB' and text()='Reboot']")
+d.click()
+time.sleep(2)
+
+browser.execute_script('doReboot();')
+browser.switch_to.alert.accept()
+
+time.sleep(40)
+
+browser.close()
+sys.exit()
